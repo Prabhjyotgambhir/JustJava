@@ -1,6 +1,8 @@
 
 package com.example.justjava;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,10 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.example.justjava.R.id.order_summary;
-
 public class MainActivity extends AppCompatActivity {
 int quantity = 2;
+    String summarymessage;
     boolean whippedcream_check,chocolatecream_check;
     String namefororder;
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +30,20 @@ int quantity = 2;
         chocolatecream_check = hasChocolateCream.isChecked();
         EditText name = (EditText) findViewById(R.id.nameorder);
         namefororder = name.getText().toString();
-        int price = calculatePrice();
-        String summary = createSummaryOrder(price);
-        displayMessage(summary);
         Toast.makeText(this, "Order Placed!", Toast.LENGTH_SHORT).show();
+        String mail_from = "prabhjyotgambhir1994@gmail.com";
+        String subject = "Order Summary for : " + namefororder;
+        int price = calculatePrice();
+        createSummaryOrder(price);
+        Intent send_email = new Intent(Intent.ACTION_SENDTO);
+        send_email.setData(Uri.parse("mailto:"));
+        send_email.putExtra(Intent.EXTRA_EMAIL,mail_from);
+        send_email.putExtra(Intent.EXTRA_SUBJECT,subject);
+        send_email.putExtra(Intent.EXTRA_TEXT,summarymessage);
+        if(send_email.resolveActivity(getPackageManager()) !=null)
+        {
+            startActivity(send_email);
+        }
 
 
     }
@@ -72,14 +83,12 @@ int quantity = 2;
     }
     public String createSummaryOrder(int price)
     {
-        return " Name: " + namefororder + "\n Quantity " + quantity  + "\n Want Whipped cream? " + whippedcream_check + "\n Want Chocolate cream? " + chocolatecream_check + "\n Total : $" + price + "\n Thankyou!";
+         summarymessage = " Name: " + namefororder + "\n Quantity " + quantity  + "\n Want Whipped cream? " + whippedcream_check + "\n Want Chocolate cream? " + chocolatecream_check + "\n Total : $" + price + "\n Thankyou!";
+        return summarymessage;
     }
     private void display(int number) {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
         quantityTextView.setText("" + number);
     }
-    private void displayMessage(String message) {
-        TextView ordersummary = (TextView) findViewById(order_summary);
-        ordersummary.setText(message);
-    }
+
 }

@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">Just Java</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="summary" translatable="false">Order summary!</string>
+    <string name="hint" translatable="false">Name</string>
+    <string name="toppings" translatable="false">Toppings!</string>
+    <string name="wcream" translatable="false">Whipped Cream</string>
+    <string name="ccream" translatable="false">Chocolate Cream</string>
+    <string name="quantity" translatable="false">Quantity!</string>
+    <string name="orderbutton" translatable="false">Order!</string>
+
 
     <!-- Strings related to Settings -->
 
